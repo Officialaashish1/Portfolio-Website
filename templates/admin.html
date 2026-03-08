@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 class="section-title" style="margin-bottom: 0;">Admin Dashboard</h2>
+        <div style="display: flex; gap: 10px;">
+            <button onclick="toggleDiv('pwd-form')" class="btn" style="background: #ff4757;">Change Password</button>
+            <a href="/logout" class="btn" style="background: #747d8c; text-decoration: none;">Logout</a>
+        </div>
+    </div>
+
+    <!-- Security Form -->
+    <div id="pwd-form" class="card" style="display: none; margin-bottom: 2rem; max-width: 400px; border: 1px solid #ff4757;">
+        <h3>Security: Set New Password</h3>
+        <form action="{{ url_for('change_password') }}" method="POST">
+            <input type="password" name="new_password" placeholder="New Secret Password" required class="admin-input" style="margin-bottom: 1rem;">
+            <button type="submit" class="btn" style="background: #ff4757;">Confirm Change</button>
+        </form>
+    </div>
+
+    <!-- Profile Section (About Me) -->
+    <section class="card" style="margin-bottom: 3rem;">
+        <h3>Header & About Me</h3>
+        <form action="{{ url_for('edit_profile') }}" method="POST">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" value="{{ profile.name }}" class="admin-input">
+            </div>
+            <div class="form-group">
+                <label>Headline</label>
+                <input type="text" name="headline" value="{{ profile.headline }}" class="admin-input">
+            </div>
+            <div class="form-group">
+                <label>About Me Text</label>
+                <textarea name="about_text" class="admin-input" rows="5">{{ profile.about_text }}</textarea>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" value="{{ profile.email }}" class="admin-input">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" name="phone" value="{{ profile.phone }}" class="admin-input">
+                </div>
+            </div>
+            <button type="submit" class="btn">Update Profile</button>
+        </form>
+    </section>
+
+    <!-- Academic Details (Education) -->
+    <section class="card" style="margin-bottom: 3rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3>Academic Details</h3>
+            <button onclick="toggleDiv('add-edu-form')" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">+ Add Education</button>
+        </div>
+        
+        <div id="add-edu-form" style="display: none; margin-bottom: 2rem; padding: 1.5rem; border: 1px dashed var(--accent); border-radius: 10px;">
+            <form action="{{ url_for('add_education') }}" method="POST">
+                <input type="text" name="degree" placeholder="Degree (e.g., Graduation in BCA)" required class="admin-input">
+                <input type="text" name="institution" placeholder="Institution" required class="admin-input">
+                <input type="text" name="duration" placeholder="Duration (e.g., 2020-2023)" required class="admin-input">
+                <button type="submit" class="btn">Save Education</button>
+            </form>
+        </div>
+
+        <div class="admin-list">
+            {% for edu in edu_list %}
+            <div style="padding: 1rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>{{ edu.degree }}</strong>
+                    <div>
+                        <button onclick="toggleDiv('edit-edu-{{ edu.id }}')" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.7rem;">Edit</button>
+                        <a href="{{ url_for('delete_education', id=edu.id) }}" style="color: #ff4757; margin-left: 10px;"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+                <div id="edit-edu-{{ edu.id }}" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <form action="{{ url_for('edit_education', id=edu.id) }}" method="POST">
+                        <input type="text" name="degree" value="{{ edu.degree }}" class="admin-input">
+                        <input type="text" name="institution" value="{{ edu.institution }}" class="admin-input">
+                        <input type="text" name="duration" value="{{ edu.duration }}" class="admin-input">
+                        <button type="submit" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Update</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Experience Section (Jobs) -->
+    <section class="card" style="margin-bottom: 3rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3>Work Experience</h3>
+            <button onclick="toggleDiv('add-job-form')" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">+ Add Job</button>
+        </div>
+        
+        <div id="add-job-form" style="display: none; margin-bottom: 2rem; padding: 1.5rem; border: 1px dashed var(--accent); border-radius: 10px;">
+            <form action="{{ url_for('add_job') }}" method="POST">
+                <input type="text" name="company" placeholder="Company Name" required class="admin-input">
+                <input type="text" name="role" placeholder="Role" required class="admin-input">
+                <input type="text" name="duration" placeholder="Duration" required class="admin-input">
+                <textarea name="description" placeholder="Short Description" class="admin-input"></textarea>
+                <button type="submit" class="btn">Save Position</button>
+            </form>
+        </div>
+
+        <div class="admin-list">
+            {% for job in jobs %}
+            <div style="padding: 1.5rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between;">
+                    <div>
+                        <h4 style="margin:0;">{{ job.role }}</h4>
+                        <p style="color: var(--accent); margin: 5px 0;">{{ job.company }}</p>
+                    </div>
+                    <div>
+                        <button onclick="toggleDiv('edit-job-{{ job.id }}')" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.7rem;">Edit</button>
+                        <a href="{{ url_for('delete_job', id=job.id) }}" style="color: #ff4757; margin-left: 10px;"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+                <div id="edit-job-{{ job.id }}" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <form action="{{ url_for('edit_job', id=job.id) }}" method="POST">
+                        <input type="text" name="company" value="{{ job.company }}" class="admin-input">
+                        <input type="text" name="role" value="{{ job.role }}" class="admin-input">
+                        <input type="text" name="duration" value="{{ job.duration }}" class="admin-input">
+                        <textarea name="description" class="admin-input">{{ job.description }}</textarea>
+                        <button type="submit" class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Update</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+        <!-- Skills Section -->
+        <section class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3>Technical Skills</h3>
+                <button onclick="toggleDiv('add-skill-form')" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.7rem;">+ Add Skill</button>
+            </div>
+            
+            <div id="add-skill-form" style="display: none; margin-bottom: 1rem;">
+                <form action="{{ url_for('add_skill') }}" method="POST" style="display: flex; gap: 5px;">
+                    <input type="text" name="name" placeholder="Skill" required class="admin-input" style="flex: 2;">
+                    <select name="category" class="admin-input" style="flex: 1;">
+                        <option value="Core">Core</option>
+                        <option value="AI">AI</option>
+                        <option value="Web">Web</option>
+                        <option value="Tools">Tools</option>
+                    </select>
+                    <button type="submit" class="btn">Add</button>
+                </form>
+            </div>
+
+            {% for skill in skills %}
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <span>{{ skill.name }} ({{ skill.category }})</span>
+                <div>
+                    <button onclick="toggleDiv('edit-skill-{{ skill.id }}')" style="color: var(--accent); background:none; border:none; cursor:pointer;"><i class="fas fa-edit"></i></button>
+                    <a href="{{ url_for('delete_skill', id=skill.id) }}" style="color: #ff4757; margin-left: 5px;"><i class="fas fa-trash"></i></a>
+                </div>
+            </div>
+            <div id="edit-skill-{{ skill.id }}" style="display: none; padding: 10px;">
+                <form action="{{ url_for('edit_skill', id=skill.id) }}" method="POST" style="display: flex; gap: 5px;">
+                    <input type="text" name="name" value="{{ skill.name }}" class="admin-input">
+                    <select name="category" class="admin-input">
+                        <option value="Core" {% if skill.category == 'Core' %}selected{% endif %}>Core</option>
+                        <option value="AI" {% if skill.category == 'AI' %}selected{% endif %}>AI</option>
+                        <option value="Web" {% if skill.category == 'Web' %}selected{% endif %}>Web</option>
+                        <option value="Tools" {% if skill.category == 'Tools' %}selected{% endif %}>Tools</option>
+                    </select>
+                    <button type="submit" class="btn">Update</button>
+                </form>
+            </div>
+            {% endfor %}
+        </section>
+
+        <!-- Projects Section -->
+        <section class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h3>Key Projects</h3>
+                <button onclick="toggleDiv('add-project-form')" class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.7rem;">+ Add Project</button>
+            </div>
+
+            <div id="add-project-form" style="display: none; margin-bottom: 1rem;">
+                <form action="{{ url_for('add_project') }}" method="POST">
+                    <input type="text" name="title" placeholder="Project Title" required class="admin-input">
+                    <input type="text" name="technologies" placeholder="Tech Stack" required class="admin-input">
+                    <textarea name="description" placeholder="Description" class="admin-input"></textarea>
+                    <button type="submit" class="btn">Add Project</button>
+                </form>
+            </div>
+
+            {% for project in projects %}
+            <div style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                <div style="display: flex; justify-content: space-between;">
+                    <strong>{{ project.title }}</strong>
+                    <div>
+                        <button onclick="toggleDiv('edit-project-{{ project.id }}')" style="color: var(--accent); background:none; border:none; cursor:pointer;"><i class="fas fa-edit"></i></button>
+                        <a href="{{ url_for('delete_project', id=project.id) }}" style="color: #ff4757; margin-left: 5px;"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+                <div id="edit-project-{{ project.id }}" style="display: none; margin-top: 10px;">
+                    <form action="{{ url_for('edit_project', id=project.id) }}" method="POST">
+                        <input type="text" name="title" value="{{ project.title }}" class="admin-input">
+                        <input type="text" name="technologies" value="{{ project.technologies }}" class="admin-input">
+                        <textarea name="description" class="admin-input">{{ project.description }}</textarea>
+                        <button type="submit" class="btn">Update</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </div>
+</div>
+
+<script>
+function toggleDiv(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+{% endblock %}

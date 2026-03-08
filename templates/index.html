@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="hero" id="home">
+    <div class="hero-content reveal">
+        <h1>{{ profile.name if profile else "Aashish" }}</h1>
+        <p class="headline">{{ profile.headline if profile else "Python Developer & AI Engineer" }}</p>
+        <p class="subtext">Experienced Developer building high-performance automation & AI solutions</p>
+        
+        <div class="contact-strip fade-in-delay">
+            <span><i class="fas fa-envelope"></i> aashish783078@gmail.com</span>
+            <span><i class="fas fa-phone"></i> +91 7830785069</span>
+        </div>
+
+        <div class="social-links fade-in-delay">
+            <a href="https://github.com/OfficialAashish1" target="_blank" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/aashish-sharma-2aa057226" target="_blank" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.facebook.com/Officialaashish1" target="_blank" class="social-btn" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/official_aashish_1" target="_blank" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/message/SZVZCCBYA6R3G1" target="_blank" class="social-btn" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://t.me/Official_aashish_1" target="_blank" class="social-btn" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+    </div>
+</header>
+
+<section id="about" class="reveal">
+    <h2 class="section-title">About Me</h2>
+    <div class="card">
+        <p style="white-space: pre-wrap;">{{ profile.about_text if profile else "Passionate Developer specializing in backend systems and AI." }}</p>
+    </div>
+</section>
+
+<section id="academic" class="reveal">
+    <h2 class="section-title">Academic Details</h2>
+    <div class="card-grid">
+        {% for edu in edu_list %}
+        <div class="card">
+            <div class="date">{{ edu.duration }}</div>
+            <h3>{{ edu.degree }}</h3>
+            <h4>{{ edu.institution }}</h4>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="experience" class="reveal">
+    <h2 class="section-title">Experience</h2>
+    <div class="card-grid">
+        {% for job in jobs %}
+        <div class="card">
+            <div class="date">{{ job.duration }}</div>
+            <h3>{{ job.role }}</h3>
+            <h4>{{ job.company }}</h4>
+            <p style="white-space: pre-wrap;">{{ job.description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="skills" class="reveal">
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="skills-grid">
+        {% for skill in skills %}
+        <div class="skill-tag">
+            {{ skill.name }}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="projects" class="reveal">
+    <h2 class="section-title">Key Projects</h2>
+    <div class="card-grid">
+        {% for project in projects %}
+        <div class="card">
+            <h3>{{ project.title }}</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem; white-space: pre-wrap;">{{ project.description }}</p>
+            <div style="font-size: 0.8rem; color: var(--accent); font-weight: 600;">{{ project.technologies }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="contact" class="reveal">
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="card" style="max-width: 800px; margin: 0 auto; padding: 3rem;">
+        <p style="text-align: center; margin-bottom: 2rem; color: var(--text-secondary);">Have a project in mind or just want to say hi? Feel free to send a message!</p>
+        <form>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+            </div>
+            <textarea placeholder="Your Message" rows="5" required style="margin-bottom: 1.5rem; width: 100%;"></textarea>
+            <button type="button" class="btn" style="width: 100%;" onclick="alert('Message feature simulated! In a real app, this would send an email.')">Send Message</button>
+        </form>
+        
+        <div class="contact-strip" style="margin-top: 3rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem;">
+            <span><i class="fas fa-envelope"></i> aashish783078@gmail.com</span>
+            <span><i class="fas fa-phone"></i> +91 7830785069</span>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
