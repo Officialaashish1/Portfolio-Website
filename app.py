@@ -212,11 +212,12 @@ def delete_skill(id):
         db.session.commit()
     return redirect(url_for('admin'))
 
+# Create admin user on startup (works with both python app.py and gunicorn)
+with app.app_context():
+    if not User.query.filter_by(username='Aashish').first():
+        admin_user = User(username='Aashish', password=generate_password_hash('78@Aashish'))
+        db.session.add(admin_user)
+        db.session.commit()
+
 if __name__ == '__main__':
-    # Create an admin user if not exists
-    with app.app_context():
-        if not User.query.filter_by(username='Aashish').first():
-            admin_user = User(username='Aashish', password=generate_password_hash('78@Aashish'))
-            db.session.add(admin_user)
-            db.session.commit()
     app.run(debug=True)
