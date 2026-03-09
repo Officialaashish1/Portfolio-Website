@@ -85,7 +85,7 @@ def init_db(app):
             profile = Profile(
                 name="Aashish",
                 headline="Python Developer & AI Engineer",
-                about_text="AI Engineer | Python Developer | Automation & AI Chatbots \n I specialize in building AI-driven applications, automation workflows, and scalable backend systems using Python. Currently working at Bol7 Technologies, I develop AI chatbots and automation solutions that help businesses streamline operations.\n With a background in MCA from Graphic Era Hill University and hands-on experience in machine learning and Python development, I enjoy turning ideas into intelligent systems that solve real-world problems.",
+                about_text="AI Engineer | Python Developer | Automation & AI Chatbots \n\nI specialize in building AI-driven applications, automation workflows, and scalable backend systems using Python. Currently working at Bol7 Technologies, I develop AI chatbots and automation solutions that help businesses streamline operations.\n\nWith a background in MCA from Graphic Era Hill University and hands-on experience in machine learning and Python development, I enjoy turning ideas into intelligent systems that solve real-world problems.",
                 email="aashish783078@gmail.com",
                 phone="+91 7830785069"
             )
