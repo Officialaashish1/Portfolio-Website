@@ -56,12 +56,12 @@ def init_db(app):
         if not Skill.query.first():
             skills = [
                 Skill(name="Python", category="", proficiency=95),
-                Skill(name="C/C++", category="", proficiency=85),
+                Skill(name="C & C++", category="", proficiency=85),
                 Skill(name="WordPress (CMS)", category="", proficiency=90),
                 Skill(name="MySQL", category="Database", proficiency=80),
-                Skill(name="NumPy/Pandas", category="Tools", proficiency=85),
+                Skill(name="NumPy & Pandas", category="", proficiency=85),
                 Skill(name="Google Analytics", category="Tools", proficiency=80),
-                Skill(name="CVAT", category="Tools", proficiency=75),
+                Skill(name="Data Label CVAT", category="Tools", proficiency=75),
             ]
             for s in skills: db.session.add(s)
             
@@ -74,16 +74,18 @@ def init_db(app):
             projects = [
                 Project(title="Railway Reservation System", description="Developed a Python and SQL-based system for managing train bookings, passenger records, and secure ticket reservations.", technologies="Python, SQL"),
                 Project(title="Face Recognition Attendance System", description="Developed a Python-based system for attendance using face recognition and database integration.", technologies="Python, Django"),
-                Project(title="Portfolio Website", description="Designed and developed a responsive personal portfolio website using WordPress.", technologies="WordPress, CMS")
+                Project(title="Portfolio Website", description="Designed and developed a responsive personal portfolio website using WordPress.", technologies="WordPress, CMS"),
+                Project(title="Smart PDF Data Scraper", description="Built a Python scraper that automatically extracts structured data from PDF documents and converts it into clean, organized CSV files.", technologies="Python, Pandas, PDFPlumber / PyPDF, CSV"),
+                Project(title="Universal Data Converter", description="Developed a Python tool that converts TXT and JSON files into structured CSV format for easier data processing, analysis, and storage.", technologies="Python, Pandas, JSON, CSV")
             ]
             for p in projects: db.session.add(p)
             db.session.commit()
 
         if not Profile.query.first():
             profile = Profile(
-                name="Aashish Sharma",
+                name="Aashish",
                 headline="Python Developer & AI Engineer",
-                about_text="I am a passionate Python Developer and AI Engineer at Bol7 Technologies, specializing in backend systems, automation workflows, and AI chatbots.",
+                about_text="I am a passionate Python Developer and AI Engineer at Bol7 Technologies, \n specializing in backend systems, automation workflows, and AI chatbots.",
                 email="aashish783078@gmail.com",
                 phone="+91 7830785069"
             )
@@ -91,8 +93,8 @@ def init_db(app):
             db.session.commit()
         
         if not Education.query.first():
-            edu1 = Education(degree="Postgraduation in MCA", institution="Graphic Era Hill University (GEHU)", duration="2023 - 2025")
-            edu2 = Education(degree="Graduation in BCA", institution="Sri Dev Suman University (SDIMT)", duration="2020 - 2023")
+            edu1 = Education(degree="🎓 Master of Computer Applications (MCA)", institution="Graphic Era Hill University (GEHU)", duration="2023 - 2025")
+            edu2 = Education(degree="🎓 Bachelor of Computer Applications (BCA)", institution="Sri Dev Suman University (SDIMT)", duration="2020 - 2023")
             db.session.add(edu1)
             db.session.add(edu2)
             db.session.commit()
