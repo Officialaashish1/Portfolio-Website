@@ -66,7 +66,7 @@ def init_db(app):
             for s in skills: db.session.add(s)
             
             jobs = [
-                JobStatus(company="Bol7 Technologies Pvt. Ltd.", role="Python Developer", duration="2023 - Present", description="Currently working as a Python Developer, contributing to backend development, automation workflows, AI Chatbots, and scalable software solutions.", is_current=True),
+                JobStatus(company="Bol7 Technologies Pvt. Ltd.", role="Python Developer", duration="2025 - Present", description="Currently working as a Python Developer, contributing to backend development, automation workflows, AI Chatbots, and scalable software solutions.", is_current=True),
                 JobStatus(company="Prowiz Infotech LLP", role="AI Engineer", duration="Past", description="Worked as an AI Engineer, contributing to the development and optimization of machine learning models, automation workflows, AI Chatbots, and AI-driven business solutions.", is_current=False)
             ]
             for j in jobs: db.session.add(j)
